@@ -7,7 +7,7 @@ from dataclasses import dataclass
 from typing import Optional
 from uvicorn import run as app_run
 
-from vehicle.domain.vehicle_data import VehicleData
+from com.demo.visa.entity.Visa_model import VisaModel
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -25,7 +25,7 @@ app.add_middleware(
 class DataForm:
     def __init__(self, request, Request):
         self.request: Request = request
-        self.vehicle_data: Optional[VehicleData] = None
+        self.visaModel: Optional[VisaModel] = None
 
     async def get(self):
         form = await self.request.form()
@@ -33,7 +33,47 @@ class DataForm:
 
 @app.get("/")
 async def index(request: Request):
-    return templates.TemplateResponse("vehicleData.html", {"request": request, "context": "Rendering"})
+    return templates.TemplateResponse("usvisa.html", {"request": request, "context": "Rendering"})
+
+
+@app.post("/")
+async def predictRouteClient(request: Request):
+    try:
+        form = DataForm(request)
+        await form.get_usvisa_data()
+
+        usvisa_data = USvisaData(
+            continent=form.continent,
+            education_of_employee=form.education_of_employee,
+            has_job_experience=form.has_job_experience,
+            requires_job_training=form.requires_job_training,
+            no_of_employees=form.no_of_employees,
+            company_age=form.company_age,
+            region_of_employment=form.region_of_employment,
+            prevailing_wage=form.prevailing_wage,
+            unit_of_wage=form.unit_of_wage,
+            full_time_position=form.full_time_position,
+        )
+
+        usvisa_df = usvisa_data.get_usvisa_input_data_frame()
+
+        model_predictor = USvisaClassifier()
+
+        value = model_predictor.predict(dataframe=usvisa_df)[0]
+
+        status = None
+        if value == 1:
+            status = "Visa-approved"
+        else:
+            status = "Visa Not-Approved"
+
+        return templates.TemplateResponse(
+            "usvisa.html",
+            {"request": request, "context": status},
+        )
+
+    except Exception as e:
+        return {"status": False, "error": f"{e}"}
 
 
 if __name__ == "__main__":
