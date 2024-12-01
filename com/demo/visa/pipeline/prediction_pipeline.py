@@ -3,11 +3,11 @@ import sys
 
 import numpy as np
 import pandas as pd
-from visa.entity.config_entity import USvisaPredictorConfig
-from visa.entity.s3_estimator import USvisaEstimator
-from visa.exception import USvisaException
-from visa.logger import logging
-from visa.utils.main_utils import read_yaml_file
+from com.demo.visa.entity.config_entity import USvisaPredictorConfig
+from com.demo.visa.entity.s3_estimator import USvisaEstimator
+from com.demo.visa.exception import VisaException
+from com.demo.visa.logger import logging
+from com.demo.visa.utils.main_utils import read_yaml_file
 from pandas import DataFrame
 
 
@@ -42,7 +42,7 @@ class USvisaData:
 
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise VisaException(e, sys) from e
 
     def get_usvisa_input_data_frame(self)-> DataFrame:
         """
@@ -54,7 +54,7 @@ class USvisaData:
             return DataFrame(usvisa_input_dict)
         
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise VisaException(e, sys) from e
 
 
     def get_usvisa_data_as_dict(self):
@@ -84,7 +84,7 @@ class USvisaData:
             return input_data
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise VisaException(e, sys) from e
 
 class USvisaClassifier:
     def __init__(self,prediction_pipeline_config: USvisaPredictorConfig = USvisaPredictorConfig(),) -> None:
@@ -95,7 +95,7 @@ class USvisaClassifier:
             # self.schema_config = read_yaml_file(SCHEMA_FILE_PATH)
             self.prediction_pipeline_config = prediction_pipeline_config
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
 
 
     def predict(self, dataframe) -> str:
@@ -114,4 +114,4 @@ class USvisaClassifier:
             return result
         
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)

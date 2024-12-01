@@ -1,22 +1,22 @@
 import sys
-from visa.exception import USvisaException
-from visa.logger import logging
-from visa.components.data_ingestion import DataIngestion
-from visa.components.data_validation import DataValidation
-from visa.components.data_transformation import DataTransformation
-from visa.components.model_trainer import ModelTrainer
-from visa.components.model_evaluation import ModelEvaluation
-from visa.components.model_pusher import ModelPusher
+from com.demo.visa.exception import VisaException
+from com.demo.visa.logger import logging
+from com.demo.visa.components.data_ingestion import DataIngestion
+from com.demo.visa.components.data_validation import DataValidation
+from com.demo.visa.components.data_transformation import DataTransformation
+from com.demo.visa.components.model_trainer import ModelTrainer
+from com.demo.visa.components.model_evaluation import ModelEvaluation
+from com.demo.visa.components.model_pusher import ModelPusher
 
 
-from visa.entity.config_entity import (DataIngestionConfig,
+from com.demo.visa.entity.config_entity import (DataIngestionConfig,
                                          DataValidationConfig,
                                          DataTransformationConfig,
                                          ModelTrainerConfig,
                                          ModelEvaluationConfig,
                                          ModelPusherConfig)
 
-from visa.entity.artifact_entity import (DataIngestionArtifact,
+from com.demo.visa.entity.artifact_entity import (DataIngestionArtifact,
                                             DataValidationArtifact,
                                             DataTransformationArtifact,
                                             ModelTrainerArtifact,
@@ -50,7 +50,7 @@ class TrainPipeline:
             )
             return data_ingestion_artifact
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise VisaException(e, sys) from e
         
 
     
@@ -76,7 +76,7 @@ class TrainPipeline:
             return data_validation_artifact
 
         except Exception as e:
-            raise USvisaException(e, sys) from e
+            raise VisaException(e, sys) from e
         
 
 
@@ -91,7 +91,7 @@ class TrainPipeline:
             data_transformation_artifact = data_transformation.initiate_data_transformation()
             return data_transformation_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
         
 
     
@@ -107,7 +107,7 @@ class TrainPipeline:
             return model_trainer_artifact
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
         
     
 
@@ -123,7 +123,7 @@ class TrainPipeline:
             model_evaluation_artifact = model_evaluation.initiate_model_evaluation()
             return model_evaluation_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
         
 
     
@@ -138,7 +138,7 @@ class TrainPipeline:
             model_pusher_artifact = model_pusher.initiate_model_pusher()
             return model_pusher_artifact
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
 
         
         
@@ -164,5 +164,5 @@ class TrainPipeline:
             model_pusher_artifact = self.start_model_pusher(model_evaluation_artifact=model_evaluation_artifact)
 
         except Exception as e:
-            raise USvisaException(e, sys)
+            raise VisaException(e, sys)
         
