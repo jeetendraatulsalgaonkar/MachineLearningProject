@@ -42,7 +42,7 @@ async def predictRouteClient(request: Request):
         form = DataForm(request)
         await form.get_usvisa_data()
 
-        usvisa_data = USvisaData(
+        usvisa_data = VisaModel(
             continent=form.continent,
             education_of_employee=form.education_of_employee,
             has_job_experience=form.has_job_experience,
