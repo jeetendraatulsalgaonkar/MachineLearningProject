@@ -25,11 +25,29 @@ app.add_middleware(
 class DataForm:
     def __init__(self, request, Request):
         self.request: Request = request
-        self.visaModel: Optional[VisaModel] = None
+        self.continent: Optional[str] = None
+        self.education_of_employee: Optional[str] = None
+        self.has_job_experience: Optional[str] = None
+        self.requires_job_training: Optional[str] = None
+        self.no_of_employees: Optional[str] = None
+        self.company_age: Optional[str] = None
+        self.region_of_employment: Optional[str] = None
+        self.prevailing_wage: Optional[str] = None
+        self.unit_of_wage: Optional[str] = None
+        self.full_time_position: Optional[str] = None
 
     async def get(self):
         form = await self.request.form()
-        self.vehicle_data = form.get("vehicle_data")
+        self.continent = form.get("continent")
+        self.education_of_employee = form.get("education_of_employee")
+        self.has_job_experience = form.get("has_job_experience")
+        self.requires_job_training = form.get("requires_job_training")
+        self.no_of_employees = form.get("no_of_employees")
+        self.company_age = form.get("company_age")
+        self.region_of_employment = form.get("region_of_employment")
+        self.prevailing_wage = form.get("prevailing_wage")
+        self.unit_of_wage = form.get("unit_of_wage")
+        self.full_time_position = form.get("full_time_position")
 
 @app.get("/")
 async def index(request: Request):

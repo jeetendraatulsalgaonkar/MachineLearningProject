@@ -1,20 +1,21 @@
-from sqlalchemy import Column, Integer, String, Numeric
-from sqlalchemy.ext.declarative import declarative_base
-from repository_sqlalchemy import BaseRepository, Base, transaction
-from typing import List, Dict, Any
+from sqlalchemy import Table, Metadata, Column, Integer, String, Numeric
 
+from com.demo.visa.config.db_session_management import get_engine
 
-class VisaModel(Base):
-    __tablename__ = 'us.visa'
-    case_id = Column(Integer, primary_key=True, autoincrement=True)
-    continent = Column(String(20))
-    education_of_employee = Column(String(20))
-    has_job_experience = Column(String(1))
-    requires_job_training = Column(String(1))
-    no_of_employees = Column(Integer)
-    yr_of_estab = Column(Integer)
-    region_of_employment = Column(String(20))
-    prevailing_wage = Column(Numeric)
-    unit_of_wage = Column(String(10))
-    full_time_position = Column(String(1))
-    case_status = Column(String(10))
+metadata = Metadata()
+
+visa_table = Table('us.visa', metadata,
+                   Column('case_id', Integer, primary_key=True),
+                   Column('continent', String(20)),
+                   Column('education_of_employee', String(20)),
+                   Column('has_job_experience', String(1)),
+                   Column('requires_job_training', String(1)),
+                   Column('no_of_employees', Integer),
+                   Column('yr_of_estab', Integer),
+                   Column('region_of_employment', String(20)),
+                   Column('prevailing_wage', Integer),
+                   Column('unit_of_wage', String(10)),
+                   Column('full_time_position', String(1)),
+                   Column('case_status', String(10)),)
+
+metadata.create_all(get_engine())
