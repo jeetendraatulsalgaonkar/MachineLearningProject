@@ -115,19 +115,21 @@ class DataValidation:
             logging.info(f"All required columns are present in training dataframe: {status}")
             if not status:
                 validation_error_msg += f"Columns are missing in training dataframe."
+
             status = self.validate_number_of_columns(dataframe=test_df)
             logging.info(f"All required columns are present in testing dataframe: {status}")
-
             if not status:
                 validation_error_msg += f"Columns are missing in test dataframe."
+
             status = self.is_column_exist(df=train_df)
             if not status:
                 validation_error_msg += f"Columns are missing in training dataframe."
+
             status = self.is_column_exist(df=test_df)
+            if not status:
+                validation_error_msg += f"Columns are missing in testing dataframe."
 
-            validation_status = len(validation_error_msg) == 0
-
-            if validation_status:
+            if len(validation_error_msg) == 0:
                 drift_status = self.detect_dataset_drift(train_df, test_df)
                 if drift_status:
                     logging.info(f"Drift detected.")
@@ -138,7 +140,7 @@ class DataValidation:
                 logging.info(f"Validation_error: {validation_error_msg}")
 
             data_validation_artifact = DataValidationArtifactEntity(
-                validation_status=validation_status,
+                validation_status=len(validation_error_msg) == 0,
                 message=validation_error_msg,
                 drift_report_file_path=self.data_validation_config.drift_report_file_path
             )
