@@ -19,7 +19,7 @@ class DataIngestion:
         try:
             self.data_ingestion_configuration_entity = data_ingestion_configuration_entity
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def export_data_from_database_into_csv(self) -> DataFrame:
         """
@@ -46,7 +46,7 @@ class DataIngestion:
         except FileNotFoundError as e:
             raise VisaException(e, sys) from e
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def perform_test_train_split_on_data(self, data_frame: DataFrame) -> None:
         try:
@@ -71,7 +71,7 @@ class DataIngestion:
             )
             logging.info(f"Test-Train data split complete and required csvs generated.")
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def initiate_data_ingestion(self) -> DataIngestionArtifactEntity:
         """
@@ -96,4 +96,4 @@ class DataIngestion:
                 test_file_path=self.data_ingestion_configuration_entity.data_ingestion_testing_file_location
             )
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e

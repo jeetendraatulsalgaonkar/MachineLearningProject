@@ -17,7 +17,7 @@ class DataCollection:
         try:
             self.data_collection_entity = data_collection_entity
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def import_data_into_database(self):
         try:
@@ -26,4 +26,4 @@ class DataCollection:
             with get_engine_from_settings().connect() as connection:
                 data_df.to_sql('visa', connection, schema='us', index=True, if_exists='replace')
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e

@@ -41,8 +41,8 @@ class DataIngestionConfigurationEntity:
 @dataclass
 class DataValidationConfigurationEntity:
     data_validation_directory: path.join(training_pipeline_config.artifact_dir, DATA_VALIDATION_DIR_NAME)
-    drift_report_file_path: str = path.join(data_validation_directory, DATA_VALIDATION_DRIFT_REPORT_DIR,
-                                            DATA_VALIDATION_DRIFT_REPORT_FILE_NAME)
+    drift_report_file_path: str = path.join(training_pipeline_config.artifact_dir, DATA_VALIDATION_DIR_NAME,
+                                            DATA_VALIDATION_DRIFT_REPORT_DIR, DATA_VALIDATION_DRIFT_REPORT_FILE_NAME)
 
 
 @dataclass

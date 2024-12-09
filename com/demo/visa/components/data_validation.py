@@ -29,7 +29,7 @@ class DataValidation:
         try:
             return pd.read_csv(file_path)
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def validate_number_of_columns(self, dataframe: DataFrame) -> bool:
         """
@@ -44,7 +44,7 @@ class DataValidation:
             logging.info(f"Is required column present: [{status}]")
             return status
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
 
     def is_column_exist(self, df: DataFrame) -> bool:
         """
@@ -148,4 +148,4 @@ class DataValidation:
             logging.info(f"Data validation artifact: {data_validation_artifact}")
             return data_validation_artifact
         except Exception as e:
-            raise VisaException(e, sys)
+            raise VisaException(e, sys) from e
