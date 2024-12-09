@@ -43,6 +43,8 @@ class DataIngestion:
             logging.info("Exported data from database into feature directory: {data_ingestion_feature_store_directory}")
             data_frame.to_csv(os.path.join(data_ingestion_feature_store_directory, FEATURE_STORE_EXPORT_FILE_NAME), index=False, header=True)
             return data_frame
+        except FileNotFoundError as e:
+            raise VisaException(e, sys) from e
         except Exception as e:
             raise VisaException(e, sys)
 
