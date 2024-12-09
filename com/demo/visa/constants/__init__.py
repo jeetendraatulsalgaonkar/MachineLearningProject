@@ -1,3 +1,6 @@
+from datetime import datetime
+from os import path
+
 MODEL_FILE_NAME = "model.pkl"
 RAW_DATA_CSV_FILE_LOCATION = "notebook/Visadataset.csv"
 
@@ -39,3 +42,12 @@ DATA_INGESTION_TRAIN_TEST_SPLIT_RATIO: float = 0.25
 FEATURE_STORE_EXPORT_FILE_NAME = "feature_store.csv"
 TRAINING_FILE_NAME = "train.csv"
 TESTING_FILE_NAME = "test.csv"
+
+# Data Validation
+PIPELINE_NAME: str = "usvisa"
+ARTIFACT_DIR: str = "artifact"
+TIMESTAMP: str = datetime.now().strftime("%m_%d_%Y_%H_%M_%S")
+DATA_VALIDATION_DIR_NAME: str = "data_validation"
+DATA_VALIDATION_DRIFT_REPORT_DIR: str = "drift_report"
+DATA_VALIDATION_DRIFT_REPORT_FILE_NAME: str = "report.yaml"
+SCHEMA_FILE_PATH = path.join("config", "schema.yaml")

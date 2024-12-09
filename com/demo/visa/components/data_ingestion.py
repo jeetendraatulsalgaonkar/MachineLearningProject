@@ -8,7 +8,7 @@ from sklearn.model_selection import train_test_split
 
 from com.demo.visa.config.db_session_management import get_engine_from_settings
 from com.demo.visa.constants import column_list, sql_select_all_query, FEATURE_STORE_EXPORT_FILE_NAME
-from com.demo.visa.entity.artifact_entity import DataIngestionArtifact
+from com.demo.visa.entity.artifact_entity import DataIngestionArtifactEntity
 from com.demo.visa.entity.configuration_entity import DataIngestionConfigurationEntity
 from com.demo.visa.exception import VisaException
 from com.demo.visa.logger import logging
@@ -71,7 +71,7 @@ class DataIngestion:
         except Exception as e:
             raise VisaException(e, sys)
 
-    def initiate_data_ingestion(self) -> DataIngestionArtifact:
+    def initiate_data_ingestion(self) -> DataIngestionArtifactEntity:
         """
         Method name: initiate_data_ingestion
         Description: This method initiates the data ingestion process of the pipeline
@@ -89,7 +89,7 @@ class DataIngestion:
             self.perform_test_train_split_on_data(data_frame)
 
             logging.info("Data Ingestion performed. Returning the artifact.")
-            return DataIngestionArtifact(
+            return DataIngestionArtifactEntity(
                 trained_file_path=self.data_ingestion_configuration_entity.data_ingestion_training_file_location,
                 test_file_path=self.data_ingestion_configuration_entity.data_ingestion_testing_file_location
             )
