@@ -7,7 +7,8 @@ from pandas import DataFrame
 from sklearn.model_selection import train_test_split
 
 from com.demo.visa.config.db_session_management import get_engine_from_settings
-from com.demo.visa.constants import column_list, sql_select_all_query, FEATURE_STORE_EXPORT_FILE_NAME
+from com.demo.visa.constants import column_list, sql_select_all_query, FEATURE_STORE_EXPORT_FILE_NAME, \
+    DATA_INGESTION_GENERATED_DIRECTORY
 from com.demo.visa.entity.artifact_entity import DataIngestionArtifactEntity
 from com.demo.visa.entity.configuration_entity import DataIngestionConfigurationEntity
 from com.demo.visa.exception import VisaException
@@ -41,7 +42,11 @@ class DataIngestion:
             os.makedirs(data_ingestion_feature_store_directory, exist_ok=True)
 
             logging.info("Exported data from database into feature directory: {data_ingestion_feature_store_directory}")
-            data_frame.to_csv(os.path.join(data_ingestion_feature_store_directory, FEATURE_STORE_EXPORT_FILE_NAME), index=False, header=True)
+            data_frame.to_csv(
+                os.path.join(data_ingestion_feature_store_directory, FEATURE_STORE_EXPORT_FILE_NAME),
+                index=False,
+                header=True
+            )
             return data_frame
         except FileNotFoundError as e:
             raise VisaException(e, sys) from e
@@ -50,6 +55,9 @@ class DataIngestion:
 
     def perform_test_train_split_on_data(self, data_frame: DataFrame) -> None:
         try:
+            if data_frame is None or data_frame.empty:
+                raise Exception('Error processing the data frame.', sys)
+
             logging.info("Initiating train split on data")
             train_set, test_set = train_test_split(
                 data_frame,
@@ -57,8 +65,7 @@ class DataIngestion:
             )
 
             logging.info("Saving test and train sets to csv files in the appropriate location")
-            os.makedirs(self.data_ingestion_configuration_entity.data_ingestion_training_file_location, exist_ok=True)
-            os.makedirs(self.data_ingestion_configuration_entity.data_ingestion_testing_file_location, exist_ok=True)
+            os.makedirs(DATA_INGESTION_GENERATED_DIRECTORY, exist_ok=True)
             train_set.to_csv(
                 self.data_ingestion_configuration_entity.data_ingestion_training_file_location,
                 index=False,
